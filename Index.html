@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fúria MC | Domine o Campo de Batalha</title>
+    <style>
+        /* CONFIGURAÇÕES GERAIS */
+        :root {
+            --primary: #8a2be2;
+            --primary-dark: #4b0082;
+            --accent: #bc13fe;
+            --bg-dark: #0f0f12;
+            --bg-card: #1a1a20;
+            --text-light: #f4f4f4;
+            --text-dim: #b0b0b0;
+            --success: #00ff88;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* FUNDO TEMÁTICO */
+        .main-wrapper {
+            background: linear-gradient(rgba(15, 15, 18, 0.85), rgba(15, 15, 18, 0.85)), 
+                        url('https://images.unsplash.com/photo-1627398242454-45a1465c2479?q=80&w=1974&auto=format&fit=crop');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+        }
+
+        /* NAVEGAÇÃO */
+        nav {
+            background: rgba(20, 20, 25, 0.95);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .nav-links li a:hover {
+            color: var(--accent);
+        }
+
+        /* HERO / BANNER */
+        header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .hero-title {
+            font-size: 5rem;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px var(--primary);
+        }
+
+        .slogan {
+            font-size: 1.5rem;
+            color: var(--accent);
+            font-style: italic;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .status-badge {
+            background: var(--success);
+            color: black;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            margin-bottom: 20px;
+            box-shadow: 0 0 15px var(--success);
+        }
+
+        .ip-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 30px;
+            border-radius: 5px;
+            border: 1px dashed var(--primary);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .ip-box:hover {
+            background: rgba(138, 43, 226, 0.2);
+        }
+
+        /* SEÇÕES */
+        section {
+            padding: 100px 10% 60px;
+        }
+
+        h2.section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            text-transform: uppercase;
+            color: var(--primary);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 10px;
+            border-bottom: 4px solid var(--primary);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        /* LOJA (DESTAQUE) */
+        .loja-container {
+            background: rgba(138, 43, 226, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(138, 43, 226, 0.2);
+        }
+
+        .product-card {
+            background: #25252e;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .price {
+            font-size: 1.8rem;
+            color: var(--success);
+            margin: 15px 0;
+            font-weight: bold;
+        }
+
+        .btn-buy {
+            background: var(--primary);
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .btn-buy:hover {
+            background: var(--accent);
+            box-shadow: 0 0 15px var(--primary);
+        }
+
+        /* TAGS */
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .tag {
+            padding: 5px 15px;
+            border-radius: 3px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        /* STAFF */
+        .staff-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .staff-card {
+            text-align: center;
+            background: #1e1e24;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .staff-rank {
+            color: var(--accent);
+            display: block;
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+
+        /* DISCORD SECTION */
+        #discord {
+            background: #7289da;
+            color: white;
+            text-align: center;
+            padding: 60px 10%;
+            border-radius: 15px;
+            margin: 50px 10%;
+        }
+
+        .discord-btn {
+            display: inline-block;
+            background: white;
+            color: #7289da;
+            padding: 15px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            transition: 0.3s;
+        }
+
+        /* FAQ & REGRAS */
+        .text-content {
+            background: rgba(0,0,0,0.4);
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+        /* RODAPÉ */
+        footer {
+            background: #050505;
+            text-align: center;
+            padding: 40px;
+            border-top: 2px solid var(--primary);
+        }
+
+        /* RESPONSIVIDADE */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 3rem; }
+            .nav-links { display: none; }
+            section { padding: 60px 5%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+    <nav>
+        <div class="logo">FÚRIA MC</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#sobre">Sobre</a></li>
+            <li><a href="#modos">Modos</a></li>
+            <li><a href="#loja">Loja</a></li>
+            <li><a href="#equipe">Equipe</a></li>
+            <li><a href="#regras">Regras</a></li>
+        </ul>
+    </nav>
+
+    <header id="home">
+        <div class="status-badge">ONLINE</div>
+        <h1 class="hero-title">FÚRIA MC</h1>
+        <p class="slogan">"Onde a raiva vira poder e apenas os implacáveis sobrevivem!"</p>
+        <div class="ip-box" onclick="copyIP()">
+            <span id="ip-text">198.89.99.163:25566</span>
+            <div style="font-size: 0.7rem; color: var(--accent); margin-top: 5px;">CLIQUE PARA COPIAR O IP</div>
+        </div>
+    </header>
+
+    <section id="sobre">
+        <h2 class="section-title">Sobre o Servidor</h2>
+        <div class="text-content">
+            <p>Fundado em <strong>2026</strong>, o Fúria MC nasceu com a proposta de resgatar a competitividade agressiva do Minecraft. Nosso foco é proporcionar uma experiência de combate fluida, sem lag, e com sistemas de economia balanceados. Se você busca glória, aqui é o seu lugar.</p>
+        </div>
+    </section>
+
+    <section id="modos">
+        <h2 class="section-title">Modos de Jogo</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Survival PvP</h3>
+                <p>Sobreviva em um mundo hostil onde o roubo e o combate são liberados. Proteja sua base ou destrua as rivais.</p>
+            </div>
+            <div class="card">
+                <h3>Full Iron FPS</h3>
+                <p>Combate direto em arenas otimizadas para o máximo de performance. Foco total em habilidade.</p>
+            </div>
+            <div class="card">
+                <h3>Rankup Fúria</h3>
+                <p>Evolua de patentes, domine minas exclusivas e torne-se o jogador mais rico do servidor em 2026.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="loja">
+        <h2 class="section-title">Nossa Loja</h2>
+        <div class="loja-container">
+            <h3 style="margin-bottom: 30px; color: var(--accent);">Categorias: VIPs de Elite</h3>
+            <div class="grid">
+                <div class="product-card">
+                    <h4>VIP</h4>
+                    <p>Acesso básico, kit semanal e tag exclusiva.</p>
+                    <div class="price">R$ 15,00</div>
+                    <a href="#discord-section" class="btn-buy">Comprar Agora</a>
+                </div>
+                <div class="product-card">
+                    <h4>VIP+</h4>
+                    <p>Todos os benefícios VIP + voar no spawn e kit diário.</p>
+                    <div class="price">R$ 25,00</div>
+                    <a href="#discord-section" class="btn-buy">Comprar Agora</a>
+                </div>
+                <div class="product-card">
+                    <h4>FÚRIA</h4>
+                    <p>O poder da fúria: Acesso a minas exclusivas e multiplicador 2x.</p>
+                    <div class="price">R$ 45,00</div>
+                    <a href="#discord-section" class="btn-buy">Comprar Agora</a>
+                </div>
+                <div class="product-card" style="border: 2px solid var(--primary);">
+                    <h4>FÚRIA+</h4>
+                    <p>O auge do combate. 3x Coins e Kits de diamante mensais.</p>
+                    <div class="price">R$ 60,00</div>
+                    <a href="#discord-section" class="btn-buy">Comprar Agora</a>
+                </div>
+                <div class="product-card">
+                    <h4>MVP</h4>
+                    <p>Entrada prioritária, partículas cosméticas e 5 homes.</p>
+                    <div class="price">R$ 80,00</div>
+                    <a href="#discord-section" class="btn-buy">Comprar Agora</a>
+                </div>
+                <div class="product-card">
+                    <h4>MVP+</h4>
+                    <p>A elite máxima. Cor de chat personalizada e comandos especiais.</p>
+                    <div class="price">R$ 100,00</div>
+                    <a href="#discord-section" class="btn-buy">Comprar Agora</a>
+                </div>
+                <div class="product-card" style="background: linear-gradient(#25252e, #4b0082);">
+                    <h4>BERZERKER</h4>
+                    <p>Dano extra em mobs e acesso ao comando /repair total.</p>
+                    <div class="price">R$ 130,00</div>
+                    <a href="#discord-section" class="btn-buy">Comprar Agora</a>
+                </div>
+                <div class="product-card" style="background: linear-gradient(#25252e, #bc13fe);">
+                    <h4>IMPÉRIO</h4>
+                    <p>Crie 2 facções/clãs extras e tenha impostos zero.</p>
+                    <div class="price">R$ 160,00</div>
+                    <a href="#discord-section" class="btn-buy">Comprar Agora</a>
+                </div>
+            </div>
+
+            <h3 style="margin: 50px 0 30px; color: var(--accent);">Outros Produtos</h3>
+            <div class="grid">
+                <div class="product-card">
+                    <h4>Unban Global</h4>
+                    <p>Uma segunda chance para voltar a jogar conosco.</p>
+                    <div class="price">R$ 40,00</div>
+                    <a href="#discord-section" class="btn-buy">Comprar Agora</a>
+                </div>
+                <div class="product-card">
+                    <h4>50k Money</h4>
+                    <p>Injeção de economia imediata na sua conta em 2026.</p>
+                    <div class="price">R$ 10,00</div>
+                    <a href="#discord-section" class="btn-buy">Comprar Agora</a>
+                </div>
+                <div class="product-card">
+                    <h4>Pack de Tags</h4>
+                    <p>Desbloqueia as tags [Lenda], [Mestre] e [Imortal].</p>
+                    <div class="price">R$ 20,00</div>
+                    <a href="#discord-section" class="btn-buy">Comprar Agora</a>
+                </div>
+                <div class="product-card">
+                    <h4>Kits Exclusivos</h4>
+                    <p>Armaduras de Netherite encantadas nível máximo.</p>
+                    <div class="price">R$ 15,00</div>
+                    <a href="#discord-section" class="btn-buy">Comprar Agora</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="discord-section">
+        <section id="discord">
+            <h2>Compre VIPs, tags e etc... no nosso Discord na aba de produtos</h2>
+            <p>Nossa entrega é automatizada através do nosso canal oficial.</p>
+            <a href="https://discord.gg/ywv6h3Mwvy" target="_blank" class="discord-btn">ENTRAR NO DISCORD</a>
+        </section>
+    </div>
+
+    <section id="tags">
+        <h2 class="section-title">Tags Personalizadas</h2>
+        <div class="tag-list">
+            <span class="tag" style="background: #ff0000;">[REI]</span>
+            <span class="tag" style="background: #00e1ff; color: black;">[MITO]</span>
+            <span class="tag" style="background: #a200ff;">[FURIA]</span>
+            <span class="tag" style="background: #ff8800;">[GLADIADOR]</span>
+            <span class="tag" style="background: #00ff40; color: black;">[RICO]</span>
+            <span class="tag" style="background: #ffffff; color: black;">[ALFA]</span>
+            <span class="tag" style="background: #ff0077;">[DESTROER]</span>
+            <span class="tag" style="background: #555555;">[OBSCURO]</span>
+            <span class="tag" style="background: #f1c40f; color: black;">[SUPREMO]</span>
+            <span class="tag" style="background: #2ecc71;">[EXPLORADOR]</span>
+        </div>
+    </section>
+
+    <section id="equipe">
+        <h2 class="section-title">Nossa Staff</h2>
+        <div class="staff-grid">
+            <div class="staff-card">
+                <div style="font-size: 3rem;">👑</div>
+                <h3>KalebBR</h3>
+                <span class="staff-rank">Dono</span>
+            </div>
+            <div class="staff-card">
+                <div style="font-size: 3rem;">🛡️</div>
+                <h3>Fuite</h3>
+                <span class="staff-rank">Admin</span>
+            </div>
+            <div class="staff-card">
+                <div style="font-size: 3rem;">⚔️</div>
+                <h3>Gojo</h3>
+                <span class="staff-rank">Staff</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="regras">
+        <h2 class="section-title">Regras do Servidor</h2>
+        <div class="text-content">
+            <ul style="list-style-position: inside;">
+                <li>Proibido o uso de qualquer tipo de hack ou client alternativo.</li>
+                <li>Respeite todos os jogadores; ofensas pesadas resultam em mute.</li>
+                <li>Não abuse de bugs; reporte-os e seja recompensado.</li>
+                <li>Proibido propaganda de outros servidores de Minecraft.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="faq">
+        <h2 class="section-title">FAQ & Eventos 2026</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Como ganho tags?</h3>
+                <p>Você pode ganhar através de eventos automáticos ou comprando na nossa loja via Discord.</p>
+            </div>
+            <div class="card">
+                <h3>Eventos Semanais</h3>
+                <p>Todos os sábados de 2026, às 19h, acontece o evento "Fúria Total" com prêmios em dinheiro.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p><strong>FÚRIA MC &copy; 2026</strong> - Todos os direitos reservados.</p>
+        <p style="font-size: 0.8rem; color: var(--text-dim); margin-top: 10px;">Não somos afiliados à Mojang AB.</p>
+    </footer>
+</div>
+
+<script>
+    // Função para copiar o IP
+    function copyIP() {
+        const ip = "198.89.99.163:25566";
+        navigator.clipboard.writeText(ip).then(() => {
+            const ipText = document.getElementById('ip-text');
+            const original = ipText.innerText;
+            ipText.innerText = "IP COPIADO!";
+            ipText.style.color = "#00ff88";
+            
+            setTimeout(() => {
+                ipText.innerText = original;
+                ipText.style.color = "white";
+            }, 2000);
+        });
+    }
+
+    // Scroll Suave
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
